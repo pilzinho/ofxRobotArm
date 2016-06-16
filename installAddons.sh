@@ -6,13 +6,13 @@
 cd ../../addons
 
 PREFIX="git clone http://github.com/"
-${PREFIX}kylemcdonald/ofxTiming
-${PREFIX}kylemcdonald/ofxCV
+${PREFIX}CreativeInquiry/ofxTiming
+${PREFIX}CreativeInquiry/ofxCV
 ${PREFIX}CreativeInquiry/ofxNatNet
-${PREFIX}danzeeeman/ofxGML
-${PREFIX}danzeeeman/ofxGizmo
-${PREFIX}danzeeeman/ofxTimeline
-${PREFIX}danzeeeman/ofxURDriver
-${PREFIX}neilmendoza/ofxPtf
+${PREFIX}CreativeInquiry/ofxGML
+${PREFIX}CreativeInquiry/ofxGizmo
+${PREFIX}CreativeInquiry/ofxTimeline
+${PREFIX}CreativeInquiry/ofxURDriver
+${PREFIX}CreativeInquiry/ofxPtf
 
 cd ../addons/ofxRobotArm
