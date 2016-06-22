@@ -52,7 +52,7 @@ void PathController::draw(){
     
     ofPushMatrix();
     ofPushStyle();
-    ofScale(1000);
+    ofScale(1000, 1000, 1000);
     
     for (auto &p : paths){
         
