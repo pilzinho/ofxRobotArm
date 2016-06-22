@@ -14,7 +14,6 @@ void PathRecorder::startRecording(){
         startTime = ofGetElapsedTimef();
         count = 0;
         path =ofToDataPath(ofGetTimestampString()+".rp");
-        file.create(path);
         file.open(path, ofFile::WriteOnly);
     }
     recording = true;
