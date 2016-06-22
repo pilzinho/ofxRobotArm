@@ -109,6 +109,7 @@ class RobotParameters{
     ofParameter<bool> bStop;
     ofParameter<bool> b3DPath;
     
+    string ipAddress;
     vector<double> currentJointPos;
     Joint actualTCP;
     Joint targetTCP;

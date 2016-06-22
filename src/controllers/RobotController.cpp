@@ -12,7 +12,7 @@ RobotController::~RobotController(){
 
 
 void RobotController::setup(RobotParameters & params){
-    robot.setup("192.168.1.9",0, 1);
+    robot.setup(params.ipAddress,0, 1);
     robot.start();
     robotParams = &params;
     movement.setup();
@@ -37,10 +37,6 @@ void RobotController::update(){
 
 void RobotController::updateMovement(){
     movement.setCurrentJointPosition(robotParams->currentJointPos);
-
-//    robotParams->tcpOffset = robot.getToolNode().getGlobalPosition();
-    
-//    robotParams->targetTCP.position+=robotParams->tcpOffset;
     
     // send the target TCP to the kinematic solver
     movement.addTargetPoint(robotParams->targetTCP);
