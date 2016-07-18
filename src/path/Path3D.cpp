@@ -19,7 +19,7 @@ void Path3D::setup(){
     vector<ofPolyline> fooCircle = p.getOutline();
     
     // assign path and make profile
-    profile = buildProfile(.025,4);
+    profile = buildProfile(0.025,4);
 //    path = fooCircle[0];
     path = path_XZ;
     buildPerpFrames(path);
@@ -139,14 +139,6 @@ ofMatrix4x4 Path3D::getNextPose(){
         
         orientation = ptf.frameAt(ptIndex);
         
-//        if (makeZForward)
-//            orientation = zForward(orientation);
-//        else if (makeZOut)
-//            orientation = zOut(orientation);
-//        else
-//            orientation = flip(orientation);
-        
-//        return flip(orientation);
         return orientation;
     }
 }
@@ -198,7 +190,7 @@ void Path3D::draw(){
     // show the 3D path
     ofSetLineWidth(3);
     ofSetColor(ofColor::aqua);
-    path.draw();
+    //path.draw();
     
 }
 
@@ -209,14 +201,14 @@ int Path3D::size(){
 //--------------------------------------------------------------
 void Path3D::parsePts(string filename, ofPolyline &polyline){
     ofFile file = ofFile(ofToDataPath(filename));
-    
+    polyline.clear();
     if(!file.exists()){
         ofLogError("The file " + filename + " is missing");
     }
     ofBuffer buffer(file);
     
     //Read file
-    for (ofBuffer::Line it = buffer.getLines().begin(), end = buffer.getLines().end(); it != end; ++it) {
+    for (ofBuffer::Line it = buffer.getLines().begin(); it != buffer.getLines().end(); it++) {
         string line = *it;
         
         float scalar = 10;
@@ -235,7 +227,9 @@ void Path3D::parsePts(string filename, ofPolyline &polyline){
             scalar = 6;
         }
         
-        line = line.substr(1,line.length()-2);              // remove end { }
+        ofStringReplace(line, "{", "");
+        ofStringReplace(line, "}", "");
+        cout<<line<<endl;
         vector<string> coords = ofSplitString(line, ", ");  // get x y z coordinates
         
         ofVec3f p = ofVec3f(ofToFloat(coords[0])*scalar,ofToFloat(coords[1])*scalar,ofToFloat(coords[2])*scalar);
@@ -245,22 +239,8 @@ void Path3D::parsePts(string filename, ofPolyline &polyline){
     }
     
     // interpolate points to smooth
-    ofPolyline temp;
-    
-    for (int i=0; i<polyline.getVertices().size()-1; i++){
-        
-        ofVec3f p0 = polyline.getVertices()[i];
-        ofVec3f p1 = polyline.getVertices()[i+1];
-        
-        for (int j=1; j<4; j++){
-            float t = j/4.0;
-            temp.addVertex(p0.interpolate(p1, t));
-        }
-        
-    }
-    
-    polyline.clear();
-    polyline = temp;
+
+    polyline.getResampledByCount(polyline.getVertices().size()*4);
 }
 
 //--------------------------------------------------------------

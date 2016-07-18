@@ -3,7 +3,7 @@ ofxGML
 ofxGizmo
 ofxGui
 ofxPtf
-ofxTiming
-ofxXmlSettings
 ofxRobotArm
+ofxTiming
 ofxURDriver
+ofxXmlSettings
