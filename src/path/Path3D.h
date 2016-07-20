@@ -8,7 +8,6 @@ public:
     void setup();
 //    void setup(ofPolyline &polyline, vector<ofMatrix4x4> &m44);
     void set(ofPolyline &polyline);
-
     ofVec3f getNextNormal();
     ofMatrix4x4 getNextPose();
     ofMatrix4x4 getPoseAt(int index);
@@ -67,12 +66,7 @@ public:
     /// \brief polygonal profile to loft
     ofPolyline profile;
     
+    float feedRate;
     
-    
-    /* Test Paths for Orientation */
-    ofPolyline path_XZ;
-    ofPolyline path_YZ;
-    ofPolyline path_SPIRAL;
-    ofPolyline path_PERIODIC;
     void parsePts(string filename, ofPolyline &polyline);
 };

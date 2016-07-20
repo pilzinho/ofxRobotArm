@@ -32,11 +32,6 @@ void PathController::update(){
         
         paths[pathIndex]->getNextPose();
     }
-    
-    
-
-    // check if we are done drawing
-    
 }
 
 void PathController::addPath(Path *path){

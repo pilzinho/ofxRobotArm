@@ -40,9 +40,47 @@ void ofApp::setup(){
     
     // setup path controller
     path.setup();
+    line = buildPath();
+    // load/create different paths
+    path.set(line);
     vector<Path *> pathPtrs;
     pathPtrs.push_back(&path);
     paths.setup(pathPtrs);
+}
+
+//--------------------------------------------------------------
+ofPolyline ofApp::buildPath(){
+    
+    ofPolyline temp;
+
+    ofNode n0;
+    ofNode n1;
+    ofNode n2;
+    
+    n0.setPosition(.5,.25,.25); // all coordinates are in meters);
+    n1.setParent(n0);
+    n1.setPosition(0,0,.1);
+    n2.setParent(n1);
+    n2.setPosition(0,.0015,0);
+    
+    float totalRotation = 0;
+    float step = .25;
+    while (totalRotation < 360){
+        
+        n0.pan(step);
+        n1.tilt(2);
+        n2.roll(1);
+        
+        ofPoint p = n2.getGlobalPosition().rotate(90, ofVec3f(1,0,0));
+        
+        // and point to path
+        temp.addVertex(p);
+        totalRotation += step;
+    }
+    
+    temp.close();
+    temp = temp.getResampledBySpacing(0.001);
+    return temp;
 }
 
 //--------------------------------------------------------------

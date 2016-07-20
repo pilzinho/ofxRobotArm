@@ -5,33 +5,10 @@ void Path3D::setup(){
     
     ptIndex = 0;
     centroid = ofPoint(.5,.25,.25); // all coordinates are in meters
-    
-    // load/create different paths
-    parsePts("path_XZ.txt", path_XZ);
-    parsePts("path_YZ.txt", path_YZ);
-    parsePts("path_SPIRAL.txt", path_SPIRAL);
-    path_PERIODIC = buildPath();
-    
-    ofPath p;
-    p.setCircleResolution(2000);
-    p.circle(0., 0., 0.3, 0.325);
-
-    vector<ofPolyline> fooCircle = p.getOutline();
-    
-    // assign path and make profile
-    profile = buildProfile(0.025,4);
-//    path = fooCircle[0];
-    path = path_XZ;
-    buildPerpFrames(path);
-    
-//    perpFrames.clear();
-//    for (int i=0; i<ptf.framesSize(); i++){
-//        perpFrames.push_back(ptf.frameAt(i));
-//    }
-    
     reverse = false;
-    
+    profile = buildProfile(0.025,4);
     direction = 1;
+    feedRate = .01;
 }
 
 //void Path3D::setup(ofPolyline &polyline, vector<ofMatrix4x4> &m44){
@@ -66,12 +43,8 @@ void Path3D::set(ofPolyline &polyline){
     }
     centroid /= polyline.getVertices().size()-2;
     
-    // assign path and make profile
-//    profile = buildProfile(.025,4);
     path = polyline;
     buildPerpFrames(path);
-    
-
 }
 
 
@@ -105,23 +78,6 @@ void Path3D::keyPressed(int key){
         else if (key == '#'){
             makeZForward = false;
             makeZOut = false;
-        }
-        
-        else if (key == '$'){
-            path = path_XZ;
-            buildPerpFrames(path);
-        }
-        else if (key == '%'){
-            path = path_YZ;
-            buildPerpFrames(path);
-        }
-        else if (key == '^'){
-            path = path_SPIRAL;
-            buildPerpFrames(path);
-        }
-        else if (key == '&'){
-            path = path_PERIODIC;
-            buildPerpFrames(path);
         }
 }
 
@@ -194,6 +150,7 @@ void Path3D::draw(){
     
 }
 
+
 int Path3D::size(){
     return ptf.framesSize();
 }
@@ -237,49 +194,9 @@ void Path3D::parsePts(string filename, ofPolyline &polyline){
         
         polyline.addVertex(p);
     }
-    
-    // interpolate points to smooth
-
-    polyline.getResampledByCount(polyline.getVertices().size()*4);
 }
 
-//--------------------------------------------------------------
-ofPolyline Path3D::buildPath(){
-    
-    ofPolyline temp;
-    
-    ofNode n0;
-    ofNode n1;
-    ofNode n2;
-    
-    n0.setPosition(centroid.x,centroid.y,centroid.z);
-    n1.setParent(n0);
-    n1.setPosition(0,0,.1);
-    n2.setParent(n1);
-    n2.setPosition(0,.0015,0);
-    
-    float totalRotation = 0;
-    float step = .25;
-    while (totalRotation < 360){
-        
-        n0.pan(step);
-        n1.tilt(2);
-        n2.roll(1);
-        
-        ofPoint p = n2.getGlobalPosition().rotate(90, ofVec3f(1,0,0));
-        
-        // and point to path
-        temp.addVertex(p);
-        
-        // add point to perp frames
-        ptf.addPoint(p);
-        
-        totalRotation += step;
-    }
-    
-    temp.close();
-    return temp;
-}
+
 
 //--------------------------------------------------------------
 void Path3D::buildPerpFrames(ofPolyline polyline){
@@ -290,9 +207,6 @@ void Path3D::buildPerpFrames(ofPolyline polyline){
     for (auto &p : polyline){
         ptf.addPoint(p);
     }
-    
-
-    
 }
 
 //--------------------------------------------------------------

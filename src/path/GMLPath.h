@@ -15,10 +15,6 @@ public:
     ~GMLPath(){};
     
     void setup();
-    void addPoint(ofVec3f pt);
-    void addPath(vector<ofVec3f> pts);
-    void addPath(ofPolyline line);
-    void addPaths(vector<ofPolyline> lines);
     
     void setup(float x, float y, float width, float height);
     void loadFile(string _filepath);
