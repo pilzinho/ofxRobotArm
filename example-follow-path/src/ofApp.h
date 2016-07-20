@@ -43,13 +43,13 @@ public:
     
     ofxGizmo gizmo;
     ofNode tcpNode;
-    
+    float feedRate;
     void setupViewports();
     void setupGUI();
     void positionGUI();
     void drawGUI();
     
-    
+    int startFrameNum;
     ofxPanel panel;
     ofxPanel panelJoints;
     ofxPanel panelTargetJoints;

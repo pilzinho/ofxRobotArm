@@ -8,7 +8,7 @@ void Path3D::setup(){
     reverse = false;
     profile = buildProfile(0.025,4);
     direction = 1;
-    feedRate = .01;
+    feedRate = 0.01;
 }
 
 //void Path3D::setup(ofPolyline &polyline, vector<ofMatrix4x4> &m44){
@@ -173,15 +173,15 @@ void Path3D::parsePts(string filename, ofPolyline &polyline){
         ofVec3f offset;
         if (filename == "path_XZ.txt"){
             offset = ofVec3f(0, 0, 0);
-            scalar = 6;
+            scalar = 3;
         }
         else if (filename == "path_YZ.txt"){
             offset = ofVec3f(0, 0, 0);
-            scalar = 6;
+            scalar = 3;
         }
         else{
             offset = ofVec3f(0, 0, .25);
-            scalar = 6;
+            scalar = 3;
         }
         
         ofStringReplace(line, "{", "");

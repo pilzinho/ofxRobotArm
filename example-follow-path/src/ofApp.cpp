@@ -46,6 +46,8 @@ void ofApp::setup(){
     vector<Path *> pathPtrs;
     pathPtrs.push_back(&path);
     paths.setup(pathPtrs);
+    
+    feedRate = 0.001;
 }
 
 //--------------------------------------------------------------
@@ -79,7 +81,7 @@ ofPolyline ofApp::buildPath(){
     }
     
     temp.close();
-    temp = temp.getResampledBySpacing(0.001);
+    temp = temp.getResampledBySpacing(feedRate);
     return temp;
 }
 
@@ -366,7 +368,15 @@ void ofApp::keyPressed(int key){
     if( key == 'e' ) {
         gizmo.toggleVisible();
     }
-    
+    if(key == ' '){
+        feedRate+=0.001;
+        if(feedRate > 0.01){
+            feedRate = 0.001;
+        }
+        line = buildPath();
+        path.set(line);
+        startFrameNum = ofGetFrameNum();
+    }
     paths.keyPressed(key);
 
     handleViewportPresets(key);
