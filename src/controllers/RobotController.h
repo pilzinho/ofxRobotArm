@@ -24,17 +24,19 @@ public:
     /// \params ipAddress ipAddress of the robot
     /// \params params default parameters for the robot & GUI
     void setup(string ipAddress, RobotParameters & params);
-    
+	void loadModel(const string& modelFile);
     void updateMovement();
     void updateData();
     void update();
     void moveArm();
     void draw();
     void toggleRecord();
+	void connect();
     void close();
     ofNode getTCPNode();
     vector<double> getJointPosition();
-    RobotStateMachine state;
+	bool isConnected();
+	RobotStateMachine state;
     ofxURDriver robot;
     URMove movement;
     RobotParameters * robotParams;

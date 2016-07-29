@@ -13,23 +13,32 @@ RobotController::~RobotController(){
 
 void RobotController::setup(RobotParameters & params){
     robot.setup(params.ipAddress,0, 1);
-    robot.start();
     robotParams = &params;
-    movement.setup();
 }
 
 void RobotController::setup(string ipAddress, RobotParameters & params){
     robot.setup(ipAddress,0, 1);
-    robot.start();
     robotParams = &params;
-    movement.setup();
 }
 
-vector<double> RobotController::getJointPosition(){
+
+void RobotController::loadModel(const string& modelFile)
+{
+	robot.model.setup(modelFile);
+	movement.setup(modelFile);
+}
+
+vector<double> RobotController::getJointPosition() {
     return robotParams->currentJointPos;
 }
 
-void RobotController::update(){
+
+bool RobotController::isConnected()
+{
+	return robot.isStarted();
+}
+
+void RobotController::update() {
     toggleRecord();
     updateData();
     updateMovement();
@@ -110,6 +119,12 @@ void RobotController::toggleRecord(){
     }
 }
 
-void RobotController::draw(){
+
+void RobotController::connect()
+{
+	robot.start();
+}
+
+void RobotController::draw() {
     
 }
